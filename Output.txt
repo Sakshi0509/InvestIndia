@@ -1,0 +1,86 @@
+Number of questions asked by each member:
+Asking Member
+S. Gnanathiraviam              26
+Asaduddin Owaisi               25
+Dean Kuriakose                 25
+Shashi Tharoor                 25
+Poonamben Hematbhai Maadam     25
+                               ..
+Mohanbhai Sanjibhai Delkar      1
+DNV Senthilkumar. S             1
+Ramesh Chandappa Jigajinagi     1
+Dhanush M. Kumar                1
+Mohan S. Delkar                 1
+Name: count, Length: 486, dtype: int64
+Number of questions asked by each ministry:     
+Addressed Ministry
+HEALTH AND FAMILY WELFARE                    378
+RAILWAYS                                     295
+Education                                    249
+ROAD TRANSPORT AND HIGHWAYS                  247
+JAL SHAKTI                                   247
+                                            ... 
+COOPERATION                                   18
+PORTS, SHIPPING AND WATERWAYS                 12
+DEVELOPMENT OF NORTH EASTERN REGION           12
+PERSONNEL, PUBLIC GRIEVANCES AND PENSIONS      9
+PARLIAMENTARY AFFAIRS                          1
+Name: count, Length: 61, dtype: int64
+
+Average length of questions:
+30.234833333333334
+Top Asking Members:
+Asking Member
+S. Gnanathiraviam             26
+Asaduddin Owaisi              25
+Dean Kuriakose                25
+Shashi Tharoor                25
+Poonamben Hematbhai Maadam    25
+Sunil Baburao Mendhe          24
+A.K.P. Chinraj                24
+Vishnu Dayal Ram              24
+Jaskaur Meena                 24
+Chandrani Murmu               24
+Name: count, dtype: int64
+Distribution of questions by year:
+Year
+2022    4000
+2023    2000
+Name: count, dtype: int64
+Distribution of questions by month:
+Month
+August      1002
+December    2998
+February    2000
+Name: count, dtype: int64
+Question Length Statistics:
+count    6000.000000
+mean       30.234833
+std        11.599631
+min         3.000000
+25%        22.000000
+50%        29.000000
+75%        37.000000
+max        94.000000
+Name: Text, dtype: float64
+Member Frequency Statistics:
+count    486.000000
+mean      12.345679
+std        7.441861
+min        1.000000
+25%        5.000000
+50%       13.000000
+75%       19.000000
+max       26.000000
+Name: count, dtype: float64
+Top 10 Most Probable Keywords in Questions:
+scheme - 245
+development - 201
+national - 176
+projects - 165
+funds - 159
+new - 114
+water - 109
+schemes - 108
+railway - 107
+sector - 107
