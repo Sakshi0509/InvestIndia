@@ -1,0 +1,102 @@
+SELECT *
+----[Q_No]
+----      ,[Date]
+----      ,[Text]
+----      ,[Asking_Member]
+----      ,[Addressed_Ministry]
+  FROM [Parl_Ques].[dbo].[parliamentary_questions]
+
+SELECT [Asking_Member], COUNT(*) AS QuestionCount
+FROM parliamentary_questions
+GROUP BY [Asking_Member]
+ORDER BY QuestionCount DESC; --Right-click on the query result and select "Show Visualizer" to display the bar chart
+
+-- Number of questions asked by each member:
+SELECT [Asking_Member], COUNT(*) AS QuestionCount
+FROM parliamentary_questions
+GROUP BY [Asking_Member]
+ORDER BY QuestionCount DESC;
+
+-- Number of questions asked to each ministry:
+SELECT [Addressed_Ministry], COUNT(*) AS QuestionCount
+FROM parliamentary_questions
+GROUP BY [Addressed_Ministry]
+ORDER BY QuestionCount DESC;
+
+-- Distribution of questions over year:
+SELECT YEAR([Date]) AS Year, COUNT(*) AS QuestionCount
+FROM parliamentary_questions
+GROUP BY YEAR([Date])
+ORDER BY Year;
+
+-- Distribution of questions over month:
+SELECT MONTH([Date]) AS Month, COUNT(*) AS QuestionCount
+FROM parliamentary_questions
+GROUP BY MONTH([Date])
+ORDER BY Month;
+
+-- Most common keywords used in the questions:
+SELECT keyword, COUNT(*) AS Frequency
+FROM (
+    SELECT value AS keyword
+    FROM parliamentary_questions
+    CROSS APPLY STRING_SPLIT([Text], ' ')
+) AS keywords
+GROUP BY keyword
+ORDER BY Frequency DESC;
+
+-- Questions with the longest length:
+SELECT TOP 10 [Text], LEN([Text]) AS QuestionLength
+FROM parliamentary_questions
+ORDER BY LEN([Text]) DESC;
+
+-- Descriptive statistics for question length:
+
+-- Mean question length
+SELECT AVG(LEN([Text])) AS MeanLength
+FROM parliamentary_questions;
+
+-- Median question length
+WITH SortedData AS (
+    SELECT [Text], ROW_NUMBER() OVER (ORDER BY LEN([Text])) AS RowNum
+    FROM parliamentary_questions
+)
+SELECT AVG(LEN([Text])) AS MedianLength
+FROM SortedData
+WHERE RowNum IN (FLOOR((SELECT COUNT(*) FROM SortedData) / 2.0), CEILING((SELECT COUNT(*) FROM SortedData) / 2.0));
+
+-- Mode question length
+SELECT TOP 1 [Text] AS ModeLength, COUNT(*) AS Frequency
+FROM parliamentary_questions
+GROUP BY [Text]
+ORDER BY COUNT(*) DESC;
+
+-- Standard deviation of question length
+SELECT STDEV(LEN([Text])) AS StdDevLength
+FROM parliamentary_questions;
+
+-- Descriptive statistics for member frequency:
+
+-- Mean member frequency
+SELECT AVG(CASE WHEN [Asking_Member] <> '' THEN 1 ELSE 0 END) AS MeanMemberFrequency
+FROM parliamentary_questions;
+
+-- Median member frequency
+WITH SortedData AS (
+    SELECT [Asking_Member], ROW_NUMBER() OVER (ORDER BY (CASE WHEN [Asking_Member] <> '' THEN 1 ELSE 0 END)) AS RowNum
+    FROM parliamentary_questions
+)
+SELECT AVG(CASE WHEN [Asking_Member] <> '' THEN 1 ELSE 0 END) AS MedianMemberFrequency
+FROM SortedData
+WHERE RowNum IN (FLOOR((SELECT COUNT(*) FROM SortedData) / 2.0), CEILING((SELECT COUNT(*) FROM SortedData) / 2.0));
+
+-- Mode member frequency
+SELECT TOP 1 [Asking_Member] AS ModeMember, COUNT(*) AS Frequency
+FROM parliamentary_questions
+WHERE [Asking_Member] <> ''
+GROUP BY [Asking_Member]
+ORDER BY COUNT(*) DESC;
+
+-- Standard deviation of member frequency
+SELECT STDEV(CASE WHEN [Asking_Member] <> '' THEN 1 ELSE 0 END) AS StdDevMemberFrequency
+FROM parliamentary_questions;
